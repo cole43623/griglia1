@@ -134,6 +134,7 @@
             // Controlla che la cella appartenga a grid2
             if (cell.dataset.gridId === 'grid2') {
                 cell.textContent = selectedArrow;
+				check(["♥️","","","","","","","","","♥️","","","","●",""]);
             }
         });
     });
@@ -144,6 +145,7 @@
 			cell.textContent = contentArray[index] || ""; // Se l'array è più corto, lascia celle vuote
 		});
 	}
+
 	fillGrid1(["★","","★","","★","","★","","★","","★","","★","","★"]);
 	fillGrid1(["♥️","♥️","","♥️","♥️","","","","","","♥️","♥️","","♥️","♥️"]);
 	fillGrid1(["","","●","","","","●","","●","","●","","","","●"]);
@@ -152,6 +154,57 @@
 	fillGrid1(["●","●","●","●","","●","","","●","","","","","●","●"]);
 	fillGrid1(["★","","","","","","","★","","","","","","","★"]);
 	fillGrid1(["♥️","","","","","","","","","♥️","","","","●",""]);
+
+	function arrayEquals(a, b) {
+		return Array.isArray(a) &&
+			Array.isArray(b) &&
+			a.length === b.length &&
+			a.every((val, index) => val === b[index]);
+	}
+
+	function showFullScreenGif() { // Durata in millisecondi (es. 3000 ms = 3 secondi)
+		// Crea un overlay per coprire tutto lo schermo
+		const overlay = document.createElement('div');
+		overlay.style.position = 'fixed';
+		overlay.style.top = '0';
+		overlay.style.left = '0';
+		overlay.style.width = '100vw';
+		overlay.style.height = '100vh';
+		overlay.style.display = 'flex';
+		overlay.style.justifyContent = 'center';
+		overlay.style.alignItems = 'center';
+		overlay.style.zIndex = '1000'; // Mettilo in primo piano
+
+		// Crea un elemento <img> per la GIF
+		const gif = document.createElement('img');
+		gif.src = `./${'confetti.gif'}`; // Prende la GIF dalla stessa cartella
+		gif.style.width = '100vw'; // Occupa l'intera larghezza
+		gif.style.height = '100vh'; // Occupa l'intera altezza
+		gif.style.objectFit = 'contain'; // Adatta la GIF senza distorsioni
+
+		// Aggiunge la GIF all'overlay
+		overlay.appendChild(gif);
+		
+		// Aggiunge l'overlay al documento
+		document.body.appendChild(overlay);
+
+		// Rimuove automaticamente l'overlay dopo la durata specificata
+		setTimeout(() => {
+			document.body.removeChild(overlay);
+		}, 5000);
+	}
+
+
+	function check(contentArray) {
+		const cells = document.querySelectorAll('#grid2 .grid-cell');
+		let arr=[];
+		cells.forEach((cell, index) => {arr.push(cell.textContent)});
+		if(arrayEquals(contentArray, arr)) {
+		var audio = new Audio('sound.mp3');
+		audio.play();
+		showFullScreenGif();
+		}
+	}
 </script>
 
 </body>
