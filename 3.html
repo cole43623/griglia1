@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Griglia con Frecce</title>
+    <style>
+		body {
+			font-family: Arial, sans-serif;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 100vh;
+			margin: 0;
+			background-color: #f7f7f7;
+			background-image: url('robot.jpg'); /* Replace 'your-image.jpg' with your image file name */
+			background-size: cover; /* This makes the image cover the entire background */
+			background-position: center; /* Center the image */
+			background-repeat: no-repeat; /* Prevents the image from repeating */
+		}
+
+        .container {
+            display: flex;
+            gap: 2vw;
+            max-width: 90vw;
+        }
+
+        /* Griglia */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 0;
+            width: 30vw;
+            height: 20vw;
+            margin-bottom: 2vh;
+        }
+
+        .grid-cell {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5em;
+        }
+
+        /* Contenitore delle frecce */
+        .palette {
+            display: flex;
+            flex-direction: column;
+            gap: 1vh;
+            padding: 1vw;
+            border: transparent;
+            background: transparent;
+			margin-top:21vw;
+        }
+
+        .arrow {
+            width: 4vw;
+            height: 4vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border: 1px solid #999;
+            user-select: none;
+			background-color: #ffffff;
+            transition: background-color 0.2s, border-color 0.2s;
+            font-size: 2em;
+        }
+
+        /* Stile per la freccia selezionata */
+        .arrow.selected {
+            background-color: #ddd;
+            border-color: #333;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- Contenitore delle due griglie -->
+    <div class="grids-container">
+        <div class="grid" id="grid1"></div>
+        <div class="grid" id="grid2"></div>
+    </div>
+
+    <!-- Palette di simboli -->
+    <div class="palette">
+        <div class="arrow" data-arrow="★">★</div>
+        <div class="arrow" data-arrow="♥️">♥️</div>
+        <div class="arrow" data-arrow="●">●</div>
+        <div class="arrow" data-arrow=""></div>
+    </div>
+</div>
+
+<script>
+    // Funzione per generare una griglia 5x3
+    function createGrid(gridId) {
+        const grid = document.getElementById(gridId);
+        for (let i = 0; i < 15; i++) {
+            const cell = document.createElement('div');
+            cell.classList.add('grid-cell');
+            cell.dataset.gridId = gridId; // Assegna l'ID della griglia come attributo
+            grid.appendChild(cell);
+        }
+    }
+
+    // Crea le due griglie
+    createGrid('grid1');
+    createGrid('grid2');
+
+    let selectedArrow = "★"; // Freccia di default
+    document.querySelector('.arrow').classList.add('selected');
+    
+    // Seleziona la freccia dalla palette
+    document.querySelectorAll('.arrow').forEach(arrowDiv => {
+        arrowDiv.addEventListener('click', () => {
+            // Rimuovi la classe "selected" da tutte le frecce
+            document.querySelectorAll('.arrow').forEach(a => a.classList.remove('selected'));
+
+            // Aggiungi la classe "selected" alla freccia cliccata
+            arrowDiv.classList.add('selected');
+            
+            // Imposta la freccia selezionata
+            selectedArrow = arrowDiv.getAttribute('data-arrow');
+        });
+    });
+
+    // Inserisce la freccia nelle celle della griglia al click, solo per grid2
+    document.querySelectorAll('.grid-cell').forEach(cell => {
+        cell.addEventListener('click', () => {
+            // Controlla che la cella appartenga a grid2
+            if (cell.dataset.gridId === 'grid2') {
+                cell.textContent = selectedArrow;
+            }
+        });
+    });
+
+	function fillGrid1(contentArray) {
+		const cells = document.querySelectorAll('#grid1 .grid-cell');
+		cells.forEach((cell, index) => {
+			cell.textContent = contentArray[index] || ""; // Se l'array è più corto, lascia celle vuote
+		});
+	}
+	fillGrid1(["★","","★","","★","","★","","★","","★","","★","","★"]);
+	fillGrid1(["♥️","♥️","","♥️","♥️","","","","","","♥️","♥️","","♥️","♥️"]);
+	fillGrid1(["","","●","","","","●","","●","","●","","","","●"]);
+	fillGrid1(["♥️","●","♥️","●","♥️","","","","","","●","♥️","●","♥️","●"]);
+	fillGrid1(["","★","","","","","","","♥️","","●","","","",""]);
+	fillGrid1(["●","●","●","●","","●","","","●","","","","","●","●"]);
+	fillGrid1(["★","","","","","","","★","","","","","","","★"]);
+	fillGrid1(["♥️","","","","","","","","","♥️","","","","●",""]);
+</script>
+
+</body>
+</html>
