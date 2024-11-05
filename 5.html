@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Griglia 5x5 Interattiva con Stella</title>
+  <style>
+    /* Stili generali della pagina */
+    body, html {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+    }
+
+    /* Contenitore della griglia */
+    .griglia {
+      display: grid;
+      grid-template-columns: repeat(4, 60px);
+      grid-template-rows: repeat(4, 60px);
+      gap: 5px;
+    }
+
+    /* Stile di ogni cella della griglia */
+    .cella {
+      width: 60px;
+      height: 60px;
+      background-color: #ddd;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 24px;
+      transition: background-color 0.3s;
+    }
+
+    /* Stile della cella quando diventa nera */
+    .cella.attiva {
+      background-color: #000;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="griglia" id="griglia"></div>
+
+  <script>
+    // Seleziona il contenitore della griglia
+    const griglia = document.getElementById('griglia');
+
+	let url = window.location.href;
+    let ultimaCifra = url.match(/\d+$/);
+    let n = ultimaCifra ? parseInt(ultimaCifra[0]) : 5;
+
+    griglia.style.gridTemplateColumns = 'repeat('+n+', 60px)';
+    griglia.style.gridTemplateRows = 'repeat('+n+', 60px)';
+    function creaGriglia() {
+      for (let i = 0; i < n*n; i++) {
+        const cella = document.createElement('div');
+        cella.classList.add('cella');
+
+        // Se la cella è la prima (in alto a sinistra), aggiungi la stella
+        if (i === 0) {
+          cella.innerHTML = '★';
+        }
+
+        // Aggiunge l'evento click alla cella
+        cella.addEventListener('click', () => {
+          cella.classList.toggle('attiva');
+        });
+
+        // Aggiunge la cella alla griglia
+        griglia.appendChild(cella);
+      }
+    }
+
+    // Crea la griglia al caricamento della pagina
+    creaGriglia();
+  </script>
+</body>
+</html>
