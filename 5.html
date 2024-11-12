@@ -21,7 +21,7 @@
       display: grid;
       grid-template-columns: repeat(4, 60px);
       grid-template-rows: repeat(4, 60px);
-      gap: 5px;
+      gap: 0px;
     }
 
     /* Stile di ogni cella della griglia */
@@ -63,7 +63,7 @@
         cella.classList.add('cella');
 
         // Se la cella è la prima (in alto a sinistra), aggiungi la stella
-        if (i === 0) {
+        if (i === 0 && 0) {
           cella.innerHTML = '★';
         }
 
