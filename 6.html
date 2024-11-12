@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Griglia 5x5 Interattiva con Stella</title>
+  <style>
+
+
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f7f7f7;
+            background-image: url('robot.jpg'); /* Replace with your image file name */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .container {
+            display: flex;
+            gap: 2vw;
+            max-width: 90vw;
+        }
+
+        /* Griglia */
+        .griglia {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            grid-template-rows: repeat(10, 1fr);
+            gap: 0;
+            width: 45vw; /* Griglia che occupa il 45% della larghezza della finestra */
+            height: 45vw; /* Griglia quadrata */
+        }
+
+        .cella {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+        }
+
+
+
+    /* Stile della cella quando diventa nera */
+    .cella.attiva {
+      background-color: #000;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="griglia" id="griglia"></div>
+
+  <script>
+    // Seleziona il contenitore della griglia
+    const griglia = document.getElementById('griglia');
+
+	let url = window.location.href;
+    let ultimaCifra = url.match(/\d+$/);
+    let n = ultimaCifra ? parseInt(ultimaCifra[0]) : 5;
+
+    griglia.style.gridTemplateColumns = 'repeat('+n+', 60px)';
+    griglia.style.gridTemplateRows = 'repeat('+n+', 60px)';
+    function creaGriglia() {
+      for (let i = 0; i < n*n; i++) {
+        const cella = document.createElement('div');
+        cella.classList.add('cella');
+
+
+        // Aggiunge l'evento click alla cella
+        cella.addEventListener('click', () => {
+          cella.classList.toggle('attiva');
+        });
+
+        // Aggiunge la cella alla griglia
+        griglia.appendChild(cella);
+      }
+    }
+
+    // Crea la griglia al caricamento della pagina
+    creaGriglia();
+  </script>
+</body>
+</html>
