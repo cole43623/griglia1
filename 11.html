@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Griglia Colorabile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+			background-color: #f7f7f7;
+			background-image: url('robot.jpg'); /* Replace 'your-image.jpg' with your image file name */
+			background-size: cover; /* This makes the image cover the entire background */
+			background-position: center; /* Center the image */
+			background-repeat: no-repeat; /* Prevents the image from repeating */
+		}
+
+
+        .container {
+            display: flex;
+            gap: 2vw;
+            max-width: 90vw;
+        }
+
+        /* Griglia */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(9, 1fr);
+            grid-template-rows: repeat(9, 1fr);
+            gap: 0;
+            width: 45vw; /* Griglia che occupa il 45% della larghezza della finestra */
+            height: 45vw; /* Griglia quadrata */
+        }
+
+        .grid-cell {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+			display: flex;
+			font-size: 350%;
+			align-items: center;
+			justify-content: center;
+        }
+
+        .grid-cell.non-editable {
+            background-color: #ddd; /* Colore fisso */
+        }
+
+        /* Palette di colori */
+        .palette {
+            display: flex;
+            flex-direction: column;
+            gap: 1vh;
+        }
+
+        .color {
+            width: 4vw;
+            height: 4vw;
+            cursor: pointer;
+            border: 1px solid #999;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- Contenitore della griglia e della freccia -->
+    <div class="grid-container">
+
+        <!-- Griglia -->
+        <div class="grid" id="grid"></div>
+    </div>
+
+    <!-- Palette di colori -->
+    <div class="palette">
+        <div class="color" style="background-color: #ff0000;" data-color="#ff0000"></div>
+        <div class="color" style="background-color: #ff8800;" data-color="#ff8800"></div>
+        <div class="color" style="background-color: #ffff00;" data-color="#ffff00"></div>
+        <div class="color" style="background-color: #00ff00;" data-color="#00ff00"></div>
+        <div class="color" style="background-color: #00ffff;" data-color="#00ffff"></div>
+        <div class="color" style="background-color: #0000ff;" data-color="#0000ff"></div>
+        <div class="color" style="background-color: #ff00ff;" data-color="#ff00ff"></div>
+        <div class="color" style="background-color: #888888;" data-color="#888888"></div>
+        <div class="color" style="background-color: #000000;" data-color="#000000"></div>
+        <div class="color" style="background-color: #ffffff;" data-color="#ffffff"></div>
+    </div>
+</div>
+
+<script>
+    // Genera la griglia 9x9
+    const grid = document.getElementById('grid');
+    for (let row = 0; row < 9; row++) {
+        for (let col = 0; col < 9; col++) {
+            const cell = document.createElement('div');
+            cell.classList.add('grid-cell');
+
+            // Rendi la prima riga e la prima colonna non editabili
+            if (row === 0 || col === 0) {
+                cell.classList.add('non-editable');
+            }
+			if (col === 0 && row>0) cell.innerHTML = row;
+			if (row === 0 && col === 1) cell.innerHTML = '★'; // Stella
+			if (row === 0 && col === 2) cell.innerHTML = '▲'; // Triangolo
+			if (row === 0 && col === 3) cell.innerHTML = '■'; // Quadrato
+			if (row === 0 && col === 4) cell.innerHTML = '●'; // Cerchio
+			if (row === 0 && col === 5) cell.innerHTML = '♥'; // Cuore
+			if (row === 0 && col === 6) cell.innerHTML = '→'; // Freccia
+			if (row === 0 && col === 7) cell.innerHTML = '☀'; // Sole
+			if (row === 0 && col === 8) cell.innerHTML = '☾'; // Luna
+            grid.appendChild(cell);
+        }
+    }
+
+    let selectedColor = '#000000'; // Colore di default
+
+    // Seleziona il colore dalla palette
+    document.querySelectorAll('.color').forEach(colorDiv => {
+        colorDiv.addEventListener('click', () => {
+            selectedColor = colorDiv.getAttribute('data-color');
+        });
+    });
+
+    // Colora le celle della griglia al click
+    document.querySelectorAll('.grid-cell').forEach(cell => {
+        cell.addEventListener('click', () => {
+            if (!cell.classList.contains('non-editable')) {
+                cell.style.backgroundColor = selectedColor;
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
